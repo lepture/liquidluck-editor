@@ -1,0 +1,42 @@
+{% extends "layout.html" %}
+
+{% block main %}
+<ul id="post-list">
+  {% for f in files %}
+  <li><a href="/-admin/post/{{f}}">{{f}}</a></li>
+  {% end %}
+</ul>
+{% end %}
+
+{% block foot %}
+<script type="text/javascript">
+  var posts = $('#post-list li');
+  var inSearch = false;
+
+  $('#filename').keyup(function(e) {
+    var value = $(this).val();
+    var rv = search(value);
+    $('#post-list').empty().html(rv);
+    inSearch = true;
+  });
+  $('#filename').keydown(function(e) {
+    if (e.keyCode === 13 && inSearch) {
+      var link = $('#post-list a').first().attr('href');
+      location.href = link;
+    }
+  });
+  $('#filename').blur(function() { inSearch = false; });
+
+  function search(key) {
+    var rv = [];
+    for(var i = 0; i < posts.length; i++) {
+      var text = posts.eq(i).text();
+      var prior = text.indexOf(key);
+      if (prior !== -1) {
+        rv.push(posts[i]);
+      }
+    }
+    return rv;
+  }
+</script>
+{% end %}

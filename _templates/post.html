@@ -1,0 +1,76 @@
+{% extends "layout.html" %}
+
+{% block head %}
+<link rel="stylesheet" href="{{static_url('codemirror/codemirror.css')}}" />
+<script type="text/javascript" src="{{ static_url('codemirror/codemirror.js')}}"></script>
+<script type="text/javascript" src="{{ static_url('codemirror/xml.js')}}"></script>
+<script type="text/javascript" src="{{ static_url('codemirror/markdown.js')}}"></script>
+{% end %}
+
+{% block input %}
+<input id="filename" type="text" value="{{filename}}" />
+{% end %}
+
+{% block action %}
+<div class="editor-menu fn-left">
+  <a href="#" class="cheatsheet">Cheatsheet</a>
+  <a href="#" class="compose">Compose</a>
+  <a href="#" class="preview">Preview</a>
+</div>
+<div class="save fn-left">
+  <a href="#" class="ui-button" id="save-button">Save</a>
+</div>
+{% end %}
+
+{% block main %}
+<textarea id="code">{{content}}</textarea>
+<div id="markdown-container">{% include "markdown.html" %}</div>
+<div id="preview-container"></div>
+{% end %}
+
+{% block foot %}
+<script>
+  $('#main').attr('class', 'compose');
+
+  var editor = CodeMirror.fromTextArea($("#code")[0], {
+    mode: 'markdown',
+    lineNumbers: true,
+    lineWrapping: true,
+    matchBrackets: true,
+    autoClearEmptyLines: false,
+    indentWithTabs: false,
+    theme: "prose-bright"
+  });
+  editor.setSize('100%', $('#main-wrapper').height());
+  $('#save-button').click(function(e) {
+    e.preventDefault();
+    $.post('', {filename: $('#filename').val(), content: editor.getValue()},
+    function(data) {
+      if (data.stat == 'fail') {
+        $('body').append('<div id="message">' + data.msg + '</div>');
+      } else {
+        $('body').append('<div id="message">Saved</div>');
+      }
+      $('#message').delay(500).fadeOut(function(){
+        $('#message').remove();
+      });
+    });
+  });
+
+  $('.editor-menu .preview').click(function(e) {
+    e.preventDefault();
+    $.post('/-admin/preview', {content: editor.getValue()}, function(data) {
+      $('#preview-container').html(data.html);
+      $('#main').attr('class', 'preview');
+    });
+  });
+  $('.editor-menu .compose').click(function(e) {
+    e.preventDefault();
+    $('#main').attr('class', 'compose');
+  });
+  $('.editor-menu .cheatsheet').click(function(e) {
+    e.preventDefault();
+    $('#main').attr('class', 'markdown');
+  });
+</script>
+{% end %}
