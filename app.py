@@ -2,6 +2,7 @@ import os
 ROOT = os.path.dirname(__file__)
 import re
 import datetime
+import subprocess
 import tornado.httpserver
 import tornado.ioloop
 import tornado.options
@@ -147,7 +148,10 @@ class LoginHandler(BaseHandler, tornado.auth.GoogleMixin):
 class BuildHandler(BaseHandler):
     @tornado.web.authenticated
     def get(self):
-        pass
+        cmd = config.builder['cmd']
+        cwd = config.builder['cwd']
+        subprocess.call(cmd.split(), cwd=cwd)
+        self.write({'stat': 'ok'})
 
 
 class PreviewHandler(BaseHandler):

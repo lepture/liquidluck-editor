@@ -1,5 +1,10 @@
 {% extends "layout.html" %}
 
+{% block action %}
+<a href="/-admin/build" class="ui-button">Build</a>
+<a href="/-admin/post/new" class="ui-button">New Post</a>
+{% end %}
+
 {% block main %}
 <ul id="post-list">
   {% for f in files %}
