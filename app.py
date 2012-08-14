@@ -1,5 +1,4 @@
 import os
-ROOT = os.path.dirname(__file__)
 import re
 import datetime
 import subprocess
@@ -9,9 +8,12 @@ import tornado.options
 import tornado.web
 import tornado.auth
 import tornado.escape
+#from tornado.options import options
 import config
 from liquidluck.readers.markdown import markdown
 from liquidluck.tools.webhook import Daemon
+
+#options.log_file_prefix = 'hello'
 
 
 DEMO = '''# title
@@ -181,9 +183,9 @@ def main():
         'debug': config.debug,
         'cookie_secret': config.cookie_secret,
         'login_url': '/-admin/login',
-        'static_path': os.path.join(ROOT, '_static'),
+        'static_path': os.path.join(config.root, '_static'),
         'static_url_prefix': '/-admin/static/',
-        'template_path': os.path.join(ROOT, '_templates'),
+        'template_path': os.path.join(config.root, '_templates'),
     }
     application = tornado.web.Application([
         (r'/-admin/', AdminHandler),
@@ -193,8 +195,10 @@ def main():
         (r'/-admin/post/(.*)', PostHandler),
     ], **settings)
 
-    server = tornado.httpserver.HTTPServer(application, xheaders=True)
-    server.listen(config.port, config.host)
+    #server = tornado.httpserver.HTTPServer(application, xheaders=True)
+    #server.listen(config.port, config.host)
+    #server.listen(config.port, config.host)
+    application.listen(8000)
     tornado.ioloop.IOLoop.instance().start()
 
 

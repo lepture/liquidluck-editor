@@ -1,5 +1,6 @@
 import os.path
 debug = True
+root = os.path.dirname(__file__)
 host = '0.0.0.0'
 port = 8000
 pid = '/tmp/liquidluck-editor.pid'
