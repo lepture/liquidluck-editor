@@ -195,10 +195,9 @@ def main():
         (r'/-admin/post/(.*)', PostHandler),
     ], **settings)
 
-    #server = tornado.httpserver.HTTPServer(application, xheaders=True)
-    #server.listen(config.port, config.host)
-    #server.listen(config.port, config.host)
-    application.listen(8000)
+    server = tornado.httpserver.HTTPServer(application, xheaders=True)
+    server.listen(config.port, config.host)
+    server.listen(config.port, config.host)
     tornado.ioloop.IOLoop.instance().start()
 
 
