@@ -186,14 +186,15 @@ def main():
         'template_path': os.path.join(ROOT, '_templates'),
     }
     application = tornado.web.Application([
-        (r'/-admin', AdminHandler),
+        (r'/-admin/', AdminHandler),
         (r'/-admin/login', LoginHandler),
         (r'/-admin/build', BuildHandler),
         (r'/-admin/preview', PreviewHandler),
         (r'/-admin/post/(.*)', PostHandler),
     ], **settings)
 
-    application.listen(config.port)
+    server = tornado.httpserver.HTTPServer(application, xheaders=True)
+    server.listen(config.port, config.host)
     tornado.ioloop.IOLoop.instance().start()
 
 

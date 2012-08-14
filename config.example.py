@@ -1,5 +1,6 @@
 import os.path
 debug = True
+host = '0.0.0.0'
 port = 8000
 pid = '/tmp/liquidluck-editor.pid'
 site_name = 'Felix'
