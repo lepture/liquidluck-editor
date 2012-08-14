@@ -1,5 +1,7 @@
 import os.path
 debug = True
+port = 8000
+pid = '/tmp/liquidluck-editor.pid'
 site_name = 'Felix'
 cookie_secret = '123'
 

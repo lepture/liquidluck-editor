@@ -11,6 +11,8 @@ import tornado.auth
 import tornado.escape
 import config
 from liquidluck.readers.markdown import markdown
+from liquidluck.tools.webhook import Daemon
+
 
 DEMO = '''# title
 
@@ -191,9 +193,33 @@ def main():
         (r'/-admin/post/(.*)', PostHandler),
     ], **settings)
 
-    application.listen(8000)
+    application.listen(config.port)
     tornado.ioloop.IOLoop.instance().start()
 
 
+class ServerDaemon(Daemon):
+    def run(self):
+        main()
+
+
+def deamon_server(command='start'):
+    if config.debug:
+        main()
+        return
+    d = ServerDaemon(config.pid)
+    if command == 'start':
+        d.start()
+    elif command == 'stop':
+        d.stop()
+    elif command == 'restart':
+        d.restart()
+    else:
+        print('Invalid command')
+
+
 if __name__ == '__main__':
-    main()
+    import sys
+    if len(sys.argv) == 2:
+        deamon_server(sys.argv[1])
+    else:
+        print('python app.py start|stop|restart')
