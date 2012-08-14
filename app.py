@@ -8,12 +8,9 @@ import tornado.options
 import tornado.web
 import tornado.auth
 import tornado.escape
-#from tornado.options import options
 import config
 from liquidluck.readers.markdown import markdown
 from liquidluck.tools.webhook import Daemon
-
-#options.log_file_prefix = 'hello'
 
 
 DEMO = '''# title
@@ -196,7 +193,6 @@ def main():
     ], **settings)
 
     server = tornado.httpserver.HTTPServer(application, xheaders=True)
-    server.listen(config.port, config.host)
     server.listen(config.port, config.host)
     tornado.ioloop.IOLoop.instance().start()
 
