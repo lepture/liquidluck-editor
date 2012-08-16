@@ -1,7 +1,7 @@
 {% extends "layout.html" %}
 
 {% block action %}
-<a href="/-admin/build" class="ui-button">Build</a>
+<a href="/-admin/build" class="ui-button" id="build-button">Build</a>
 <a href="/-admin/post/new" class="ui-button">New Post</a>
 {% end %}
 
@@ -43,5 +43,20 @@
     }
     return rv;
   }
+
+  $('#build-button').click(function(e) {
+    e.preventDefault();
+    $.get('/-admin/build', function(data) {
+      if (data.stat == 'ok') {
+        $('body').append('<div id="message">Success</div>');
+      } else {
+        $('body').append('<div id="message">Error</div>');
+      }
+      $('#message').delay(500).fadeOut(function(){
+        $('#message').remove();
+      });
+    });
+  });
+
 </script>
 {% end %}

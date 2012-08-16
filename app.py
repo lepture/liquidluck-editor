@@ -143,7 +143,7 @@ class LoginHandler(BaseHandler, tornado.auth.GoogleMixin):
         if not user:
             raise tornado.web.HTTPError(500, "Google auth failed")
         self.set_secure_cookie("user", tornado.escape.json_encode(user))
-        self.redirect("/-admin")
+        self.redirect("/-admin/")
 
 
 class BuildHandler(BaseHandler):
@@ -214,7 +214,7 @@ def deamon_server(command='start'):
     elif command == 'restart':
         d.restart()
     else:
-        print('Invalid command')
+        main()
 
 
 if __name__ == '__main__':
