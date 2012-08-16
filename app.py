@@ -16,16 +16,11 @@ from liquidluck.tools.webhook import Daemon
 DEMO = '''# title
 
 - date: %s
-- link: http://somewhere.com
+- link: http://lepture.com
+- category: trends|economy|life|culture
 - author: lepture
-- public: true
 
 ----------------------
-
-> quote something
->
-> quote again
-
 
 write your comment here
 '''
@@ -33,7 +28,7 @@ write your comment here
 
 def create_demo():
     now = datetime.datetime.now()
-    return DEMO % now.strftime('%Y-%m-%d %H:%M:%S')
+    return DEMO % now.strftime('%Y-%m-%d %H:%M')
 
 
 def content_files():
