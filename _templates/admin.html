@@ -7,8 +7,8 @@
 
 {% block main %}
 <ul id="post-list">
-  {% for f in files %}
-  <li><a href="/-admin/post/{{f}}">{{f}}</a></li>
+  {% for o in files %}
+  <li><a href="/-admin/post/{{o['name']}}">{{o['name']}}</a></li>
   {% end %}
 </ul>
 {% end %}
