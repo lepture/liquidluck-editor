@@ -35,10 +35,11 @@ def content_files():
     lst = []
     for root, dirs, files in os.walk(config.content_folder):
         for f in files:
-            path = os.path.join(root, f)
-            ctime = os.stat(path).st_ctime
-            name = path.replace(config.content_folder, '', 1).lstrip('/')
-            lst.append({'name': name, 'ctime': ctime})
+            if f.endswith('.md') or f.endswith('.rst'):
+                path = os.path.join(root, f)
+                ctime = os.stat(path).st_ctime
+                name = path.replace(config.content_folder, '', 1).lstrip('/')
+                lst.append({'name': name, 'ctime': ctime})
 
     lst = sorted(lst, key=lambda o: o['ctime'], reverse=True)
     return lst
