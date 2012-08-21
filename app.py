@@ -18,7 +18,7 @@ DEMO = '''# title
 - date: %s
 - link: http://lepture.com
 - category: trends|economy|life|culture
-- author: lepture
+- author: lepture|rangerqu|fangkc|rita|riverscn
 
 ----------------------
 
